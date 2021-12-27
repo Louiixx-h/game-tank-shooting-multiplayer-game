@@ -12,6 +12,14 @@ namespace Src.Player
         [SerializeField]
         private GameObject _explosionParticle;
 
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                ShootRaycast();
+            }
+        }
+
         public void ShootRaycast()
         {
             RaycastHit hitInfo;
