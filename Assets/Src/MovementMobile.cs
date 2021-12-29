@@ -13,7 +13,7 @@ public class MovementMobile : MonoBehaviour
 
     void Update()
     {
-        Vector3 move = new Vector3(_joystick.Vertical, -1f, 0f);
+        Vector3 move = new Vector3(0f, -1f, _joystick.Vertical);
         Vector3 rotation = new Vector3(0f, _joystick.Horizontal, 0f);
        
         move = transform.TransformDirection(move);

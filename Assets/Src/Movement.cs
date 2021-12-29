@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        Vector3 move = new Vector3(Input.GetAxis("Vertical"), -1f, 0f);
+        Vector3 move = new Vector3(0f, -1f, Input.GetAxis("Vertical"));
         Vector3 rotation = new Vector3(0f, Input.GetAxis("Horizontal"), 0f);
        
         move = transform.TransformDirection(move);

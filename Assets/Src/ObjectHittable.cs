@@ -15,7 +15,7 @@ namespace Src
 
         void IShotHit.Hit(Vector3 direction)
         {
-            _rigidbody.AddForce(Vector3.Scale(direction, new Vector3(50, 100, 50))*30);
+            _rigidbody.AddForce(Vector3.Scale(direction, new Vector3(50, 100, 50))*60);
         }
     }
 }
