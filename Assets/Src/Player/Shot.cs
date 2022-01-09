@@ -7,10 +7,18 @@ namespace Src.Player
     public class Shot : MonoBehaviour
     {
         [SerializeField]
-        private ParticleSystem _particle;
+        private GameObject _particle;
         
         [SerializeField]
         private GameObject _explosionParticle;
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                ShootRaycast();
+            }
+        }
 
         public void ShootRaycast()
         {
@@ -37,7 +45,8 @@ namespace Src.Player
 
         void PlayFireParticle()
         {
-            _particle.Play();
+            GameObject fireParticle = Instantiate(_particle, transform.position, transform.rotation);
+            fireParticle.GetComponent<Explosion>().PlayExplosion();
         }
 
         void SoundFiring()
