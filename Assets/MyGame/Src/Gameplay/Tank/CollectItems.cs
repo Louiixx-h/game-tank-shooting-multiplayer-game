@@ -6,31 +6,27 @@ public class CollectItems : MonoBehaviour
 {
     public Transform m_BoxTranform;
     public GameObject m_BoxStatic;
-    public GameObject m_Box;
 
-    private void Update()
+    public delegate void CollectItemHandler(string key, GameObject item);
+    public event CollectItemHandler OnCollectItem;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (other.gameObject.layer == 6)
         {
-            var box = m_BoxTranform.GetChild(0).gameObject;
-            var position = transform.position;
-            position.z += (position.normalized.z * 2) * -1;
-            position.y += 0.5f;
-            if (box != null)
+            if (other.CompareTag("Box"))
             {
-                Instantiate(m_Box, position, Quaternion.identity);
-                Destroy(m_BoxTranform.GetChild(0).gameObject);
+                Destroy(other.gameObject);
+                var box = Instantiate(m_BoxStatic, m_BoxTranform);
+                box.transform.parent = m_BoxTranform;
+                box.GetComponent<MeshCollider>().isTrigger = false;
+                CollectedItem("Box", box);
             }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void CollectedItem(string key, GameObject item)
     {
-        if (other.CompareTag("Box"))
-        {
-            Destroy(other.gameObject);
-            var box = Instantiate(m_BoxStatic, m_BoxTranform);
-            box.transform.parent = m_BoxTranform;
-        }
+        OnCollectItem.Invoke(key, item);
     }
 }

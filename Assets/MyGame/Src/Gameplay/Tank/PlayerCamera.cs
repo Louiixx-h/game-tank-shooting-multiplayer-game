@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraPlayer : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private PhotonView _photonView;
 

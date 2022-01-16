@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankDeath : MonoBehaviour
+public class PlayerDeath : MonoBehaviour
 {
     public GameObject m_Explosion;
     public GameObject m_TankRenderer;
     public GameObject m_Panel;
     public GameObject m_Particle;
     public GameObject m_TransformBox;
-    public HealthPlayer m_HealthPlayer;
     public PlayerMovement m_PlayerMovement;
 
     public void Death()
@@ -21,7 +20,6 @@ public class TankDeath : MonoBehaviour
         Destroy(m_Panel);
         Destroy(m_Particle);
         Destroy(m_TransformBox);
-        Destroy(m_HealthPlayer);
         Destroy(m_PlayerMovement);
     }
 }

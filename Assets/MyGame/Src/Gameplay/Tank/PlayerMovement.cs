@@ -15,7 +15,7 @@ namespace Src.Gameplay
         {
             if (!_photonView.IsMine) return;
             MovementPlayer();
-            TurnBazuka(_gunRotation);
+            TurnBazuka();
         }
 
         void MovementPlayer()
@@ -29,7 +29,7 @@ namespace Src.Gameplay
             transform.Rotate(rotation * Time.deltaTime * _speedRotate);
         }
 
-        public void TurnBazuka(Transform transform)
+        public void TurnBazuka()
         {
             if (Input.GetMouseButton(1))
             {
@@ -38,7 +38,7 @@ namespace Src.Gameplay
 
                 Vector3 rotation = new Vector3(inputX, inputY, 0f);
 
-                transform.localRotation = Quaternion.Euler(-rotation.y / 2, rotation.x / 2, 0);
+                _gunRotation.localRotation = Quaternion.Euler(-rotation.y / 2, rotation.x / 2, 0);
             }
         }
     }

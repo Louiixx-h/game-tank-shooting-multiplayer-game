@@ -6,15 +6,16 @@ using UnityEngine.UI;
 
 namespace Src.Gameplay
 {
-    public class HealthPlayer : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour
     {
+        [SerializeField] private PhotonView _photonView;
+
         public float _maxLife = 50f;
         public float _currentyLife;
         public Image _spriteLife;
-        public GameObject _panel;
 
-        [SerializeField] private PhotonView _photonView;
-        [SerializeField] private TankDeath _death;
+        public delegate void PlayerHealthDelegate();
+        public event PlayerHealthDelegate OnPlayerHealthEqualsZero;
 
         void Start()
         {
@@ -29,7 +30,8 @@ namespace Src.Gameplay
 
             if (_currentyLife <= 0f)
             {
-                _death.Death();
+                OnPlayerHealthEqualsZero.Invoke();
+                Destroy(this);
             }
         }
 

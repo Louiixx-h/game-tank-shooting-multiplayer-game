@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Src.Gameplay
 {
-    public class Shot : MonoBehaviour
+    public class PlayerShot : MonoBehaviour
     {
         public GameObject _particleFire;
         public GameObject _bullet;
@@ -30,7 +30,7 @@ namespace Src.Gameplay
 
         public void Shooting()
         {
-            Instantiate(_bullet, _bulletSpawn.position, _tank.rotation);
+            Instantiate(_bullet, _bulletSpawn.position, _bulletSpawn.rotation);
             SoundFiring();
             PlayFireParticle();
         }
