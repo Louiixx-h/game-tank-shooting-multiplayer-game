@@ -1,15 +1,19 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviourPun
 {
+    [SerializeField] private PhotonView _photonView;
+
     public Transform m_BoxTranform;
     public Transform m_DropBoxTranform;
     public Dictionary<string, GameObject> gameObjects = new Dictionary<string, GameObject>();
 
     void Update()
     {
+        if (!_photonView.IsMine) return;
         DropBox();
     }
 
@@ -22,7 +26,7 @@ public class PlayerInventory : MonoBehaviour
             if (box != null)
             {
                 box.GetComponent<MeshCollider>().isTrigger = true;
-                Instantiate(box, m_DropBoxTranform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(box.name, m_DropBoxTranform.position, Quaternion.identity, 0);
                 gameObjects.Remove("Box");
                 Destroy(m_BoxTranform.GetChild(0).gameObject);
             }

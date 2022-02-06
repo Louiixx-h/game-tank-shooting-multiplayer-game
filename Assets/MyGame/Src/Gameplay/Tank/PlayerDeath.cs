@@ -1,25 +1,33 @@
+using Photon.Pun;
 using Src.Gameplay;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeath : MonoBehaviour
+public class PlayerDeath : MonoBehaviourPun
 {
-    public GameObject m_Explosion;
-    public GameObject m_TankRenderer;
-    public GameObject m_Panel;
-    public GameObject m_Particle;
-    public GameObject m_TransformBox;
-    public PlayerMovement m_PlayerMovement;
+    [SerializeField] private PhotonView _photonView;
+    public GameObject _Explosion;
+    public GameObject _TankRenderer;
+    public GameObject _Panel;
+    public GameObject _Particle;
+    public GameObject _TransformBox;
+    public PlayerMovement _PlayerMovement;
 
     public void Death()
     {
-        var explosion = Instantiate(m_Explosion, transform);
-        explosion.GetComponent<ParticleSystem>().Play();
-        Destroy(m_TankRenderer);
-        Destroy(m_Panel);
-        Destroy(m_Particle);
-        Destroy(m_TransformBox);
-        Destroy(m_PlayerMovement);
+        if (!_photonView.IsMine) return;
+        _photonView.RPC("OnDeath", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void OnDeath()
+    {
+        PhotonNetwork.Instantiate(_Explosion.name, transform.position, transform.rotation, 0);
+        Destroy(_TankRenderer);
+        Destroy(_Panel);
+        Destroy(_Particle);
+        Destroy(_TransformBox);
+        Destroy(_PlayerMovement);
     }
 }

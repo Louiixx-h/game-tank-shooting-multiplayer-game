@@ -15,7 +15,7 @@ namespace Src.Gameplay
         {
             if (!_photonView.IsMine) return;
             MovementPlayer();
-            TurnBazuka();
+            //TurnBazuka();
         }
 
         void MovementPlayer()

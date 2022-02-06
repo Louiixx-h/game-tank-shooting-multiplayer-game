@@ -10,6 +10,7 @@ namespace Src.Gameplay
     {
         [SerializeField] private PhotonView _photonView;
 
+        [Header("Life Player")]
         public float _maxLife = 50f;
         public float _currentyLife;
         public Image _spriteLife;
@@ -20,9 +21,10 @@ namespace Src.Gameplay
         void Start()
         {
             if (!_photonView.IsMine) return;
-            ChangeLifePlayer(_maxLife);
+            _photonView.RPC("ChangeLifePlayer", RpcTarget.AllBuffered, _maxLife);
         }
 
+        [PunRPC]
         public void ChangeLifePlayer(float value)
         {
             _currentyLife += value;
@@ -39,11 +41,11 @@ namespace Src.Gameplay
         {
             if (_photonView.IsMine && other.CompareTag("Bullet"))
             {
-                ChangeLifePlayer(-10f);
+                _photonView.RPC("ChangeLifePlayer", RpcTarget.AllBuffered, -10f);
             }
             if (_photonView.IsMine && other.CompareTag("Life"))
             {
-                ChangeLifePlayer(10f);
+                _photonView.RPC("ChangeLifePlayer", RpcTarget.AllBuffered, 20f);
             }
         }
     }

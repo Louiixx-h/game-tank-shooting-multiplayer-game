@@ -1,26 +1,30 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviourPun
 {
-    [SerializeField] private GameObject _bulletExplosion;
-    [SerializeField] private float _bulletSpeed;
+    [SerializeField] private PhotonView _PhotonView;
+
+    public GameObject _bulletExplosion;
+    public float _bulletSpeed;
+    public Rigidbody _Rb;
 
     void Update()
     {
-        transform.localPosition += Vector3.forward * _bulletSpeed * Time.deltaTime;
+        _Rb.AddForce(transform.forward * _bulletSpeed * Time.deltaTime, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter");
-        Destroy(gameObject);
+        PhotonNetwork.Instantiate(_bulletExplosion.name, transform.position, transform.rotation, 0);
+        _PhotonView.RPC("DestroyBullet", RpcTarget.AllViaServer);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    [PunRPC]
+    void DestroyBullet()
     {
-        Debug.Log("OnCollisionEnter");
         Destroy(gameObject);
     }
 }

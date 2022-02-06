@@ -1,12 +1,16 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    [SerializeField] private PhotonView _PhotonView;
+
     private void Start()
     {
         StartCoroutine(DestroyExplosion());
+        PlayExplosion();
     }
 
     public void PlayExplosion()
@@ -18,7 +22,13 @@ public class Explosion : MonoBehaviour
     IEnumerator DestroyExplosion()
     {
         yield return new WaitForSeconds(2f);
-        Destroy(gameObject);
+        _PhotonView.RPC("DestroyExplosionGameObject", RpcTarget.AllViaServer);
         yield return null;
+    }
+
+    [PunRPC]
+    void DestroyExplosionGameObject()
+    {
+        Destroy(gameObject);
     }
 }

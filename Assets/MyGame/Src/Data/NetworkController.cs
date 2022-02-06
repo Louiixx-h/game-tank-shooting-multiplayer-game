@@ -11,16 +11,23 @@ namespace Src.Data
 
         [Header("Player")]
         [SerializeField] private GameObject _player;
-        [SerializeField] private Transform _spawnPosition;
+        [SerializeField] private GameObject _box;
+        [SerializeField] private Transform _spawnPlayerPosition;
+        [SerializeField] private Transform _spawnBoxPosition;
 
         void Start()
         {
             PhotonNetwork.ConnectUsingSettings();
         }
 
+        void InstatiateBox()
+        {
+            PhotonNetwork.Instantiate(_box.name, _spawnBoxPosition.position, _spawnBoxPosition.rotation, 0);
+        }
+
         void InstatiatePlayer()
         {
-            PhotonNetwork.Instantiate(_player.name, _spawnPosition.position, _spawnPosition.rotation, 0);
+            PhotonNetwork.Instantiate(_player.name, _spawnPlayerPosition.position, _spawnPlayerPosition.rotation, 0);
         }
 
         public override void OnConnectedToMaster()
@@ -50,6 +57,7 @@ namespace Src.Data
         {
             Log("OnJoinRoomFailed");
             InstatiatePlayer();
+            InstatiateBox();
         }
 
         public override void OnDisconnected(DisconnectCause cause)

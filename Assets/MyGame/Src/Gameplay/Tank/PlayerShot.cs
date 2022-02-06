@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Src.Gameplay
 {
-    public class PlayerShot : MonoBehaviour
+    public class PlayerShot : MonoBehaviourPun
     {
         public GameObject _particleFire;
         public GameObject _bullet;
@@ -30,15 +30,16 @@ namespace Src.Gameplay
 
         public void Shooting()
         {
-            Instantiate(_bullet, _bulletSpawn.position, _bulletSpawn.rotation);
-            SoundFiring();
-            PlayFireParticle();
+            PhotonNetwork.Instantiate(_bullet.name, _bulletSpawn.position, _bulletSpawn.rotation, 0);
+            _photonView.RPC("PlayFireParticle", RpcTarget.AllViaServer);
         }
 
+        [PunRPC]
         void PlayFireParticle()
         {
             GameObject fireParticle = Instantiate(_particleFire, _bulletSpawn);
             fireParticle.GetComponent<Explosion>().PlayExplosion();
+            SoundFiring();
         }
 
         void SoundFiring()
