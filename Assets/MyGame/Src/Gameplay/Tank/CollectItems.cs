@@ -20,7 +20,7 @@ public class CollectItems : MonoBehaviourPun
         {
             if (other.CompareTag("Box"))
             {
-                _photonView.RPC("CollectItem", RpcTarget.AllBuffered, other.gameObject);
+                _photonView.RPC(nameof(CollectItem), RpcTarget.AllBuffered, other.gameObject);
             }
         }
     }
